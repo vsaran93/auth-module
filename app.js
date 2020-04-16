@@ -12,6 +12,7 @@ const app = express();
 //controllers 
 const userEndpoint = require('./controller/user/userController');
 
+const validation = require('./validations/user/validation');
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -29,7 +30,9 @@ catch(err) {
 }
 
 
-app.post('/api/user/register', userEndpoint.register)
+app.post('/api/user/register', validation.validateUserInput, userEndpoint.register);
+app.post('/api/user/login', userEndpoint.validateUser);
+
 app.listen(port, () => {
     console.log('Application is currently running on Port', port);
 })

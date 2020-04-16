@@ -26,6 +26,32 @@ const register = async (req, res) => {
     }
 }
 
+const validateUser = (req, res) => {
+    try {
+        let result = userService.login(req.body);
+        if (result) {
+            res.status(200).json({
+                success: true,
+                message: 'user registered successfully',
+                result: result
+            })
+        } else {
+            res.status(400).json({
+                success: false,
+                message: 'bad request'
+            })
+        }
+    }
+    catch (err) {
+        res.status(500).json({
+            success: false,
+            message: 'internal server error',
+            error: err
+        })
+    }
+}
+
 module.exports = {
-    register
+    register,
+    validateUser
 }
